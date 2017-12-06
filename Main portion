@@ -4,7 +4,7 @@ from slackclient import SlackClient
 
 
 BOT_ID = os.environ.get("BOT_ID")
-BOT_ID = "U87LW65B9"
+BOT_ID = "YOURIDHERE"
 AT_BOT = "<@" + BOT_ID + ">"
 COMMAND1 = "parameter invalid"
 COMMAND2 = "error connecting to agent"
