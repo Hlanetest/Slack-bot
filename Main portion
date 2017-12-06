@@ -1,13 +1,10 @@
-# Slack-bot
-#A bot I designed to answer questions in slack! 
-
-
 import os
 import time
 from slackclient import SlackClient
 
+
 BOT_ID = os.environ.get("BOT_ID")
-BOT_ID = "youridhere"
+BOT_ID = "U87LW65B9"
 AT_BOT = "<@" + BOT_ID + ">"
 COMMAND1 = "parameter invalid"
 COMMAND2 = "error connecting to agent"
@@ -15,68 +12,31 @@ COMMAND3 = "error opening message"
 COMMAND4 = "help"
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
+
 def handle_command(command, channel):
     """
         Receives commands directed at the bot and determines if they
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
-    response = "Not sure what you mean. Use the *" + COMMAND1 + "* or *" + COMMAND2 + \
-               "* command with numbers, delimited by spaces."
-    time.sleep(1)
+    response = ("Not sure what you mean. Use the *" + COMMAND4 +
+                    "* command to get a list of available commands!.")
     if command.startswith(COMMAND1):
-        response = """
-                        Have the customer do the following
-                        ```restart these services
-                        Com + Event System
-                        Volume Shadowcopy Provider
-                        Microsoft Shadowcopy Provider
-                        Barracuda backup agent```
-
-                        After that, also have the customer go through the process of
-                        deleteing and recreating their USN Journals   """
-                        
-        slack_client.api_call("chat.postMessage", channel=channel,
-                          text=response, as_user=True)
-        time.sleep(1)
-
-
-    elif command.startswith(COMMAND2):
-          response = """   To resolve this error, verify the customer is using a valid FQDN or IP address, and not hosts names
-(If they upgraded from 6.2.04 they may be using them, they won't work passed that) and ensure the FQDN
-has an A record (dig FQDN) after that, if you can Ping it try agent_tool IP/FQDN and see if you can reach it.
-IF it is in a seperate subnet, try adding a static route!"""
-          slack_client.api_call("chat.postMessage", channel=channel,
-                          text=response, as_user=True)
-          time.sleep(1)
-
-
-    elif command.startswith(COMMAND3):
-        response = """ The customer mostly likely isn't using the correct SP (service pack) for Exchange, double check with exchange_info -S 4 (the share id), verify the service pack, if it is service pack 3,
-have the customer give you the build number for their exchange, if it is 14.03.0123.004, this is the earliest version of SP3, this was created back on Feburary 12th, 2013, have the customer update their exchange enviorment.
-
-if you are at all curious to learn more on this, follow these two handy links!
-```https://technet.microsoft.com/en-us/library/hh135098(v=exchg.150).aspx
-https://wikihub.cudaops.com/display/BBS/Troubleshooting+Notes```"""
-        slack_client.api_call("chat.postMessage", channel=channel,
-                              text=response, as_user=True)
-        time.sleep(1)
-
+        with open('test.txt','r') as data_file:
+            for line in data_file:
+                slack_client.api_call("chat.postMessage", channel=channel, text=line, as_user=True)
+                time.sleep(1)
     elif command.startswith(COMMAND4):
-        response = """Hello there! my name is *Cudabot!* I am a bot specially designed
-to assist with all your *backup* issues! Here's a list of commands currently available
-to me!
-```parameter invalid
-error connecting to agent
-error opening message```
-
-simply type @cudabot, with one of those commands! for example!
-@ cudabot parameter invalid! (remove the space at the @)
-if you have questions or suggestions,
-ping @Hadorian for any information! thanks!"""
+        with open('help.txt', 'r') as help_file:
+            for line in help_file:
+                slack_client.api_call("chat.postMessage", channel=channel, text=line, as_user=True)
+                time.sleep(1)
+                
+    else:
         slack_client.api_call("chat.postMessage", channel=channel,
-                              text=response, as_user=True)
+                          text=response, as_user=True)
         time.sleep(1)
+        
 # everything below here handles the connection for the slack bot 
 def parse_slack_output(slack_rtm_output):
     """
