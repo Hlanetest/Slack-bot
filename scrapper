@@ -1,0 +1,23 @@
+import praw
+reddit = praw.Reddit(client_id='',
+                     client_secret='',
+                     user_agent='',
+                     username='',
+                     password='')
+
+print(reddit.read_only)
+
+
+subreddit = reddit.subreddit('The_Donald')
+
+
+for submission in subreddit.hot(limit=30):
+    print (submission.title + ' sub_url -> '+ submission.url + ' sub_id -> ' +submission.id + ' Karma -> ' + str(submission.score)) #Gives the top 20 (indicates in the for submission) posts of the specified subreddit in the brackets 
+
+
+#for comment in reddit.subreddit('The_Donald').comments(limit=75):
+    #print (comment.body + ' - ' + str(comment.author)) #Gives the name of the users of a subreddit, specified in the brackets
+
+
+
+    
