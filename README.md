@@ -1,3 +1,4 @@
+#THIS SCRIPT IS UNFINISHED, DUE TO OTHER PRIORITIES. 
 # Slack-bot
 A bot I designed to answer questions in slack! 
 import praw
@@ -38,3 +39,5 @@ def key_words(subs):
                     print('Invalid Unicode Detected, Skipping Post')
            
 key_words('ALL')
+
+#THIS SCRIPT IS UNFINISHED, DUE TO OTHER PRIORITIES. 
